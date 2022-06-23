@@ -1,0 +1,197 @@
+<!-- <div class="container">
+    <div class="header">
+    <div class="headerTitle"></div>
+    <div class="headerLogout"></div>
+  </div>
+  <div class="table">
+    <div class="tableTicket"></div>
+    <div class="tableData"></div>
+  </div>
+ </div> -->
+
+<nav class="navbar bg-light">
+  <span class="navbar-brand mb-0 h1" style="margin-left: 10px">TicketApp</span>
+  <div
+    class="container"
+    style="display: flex; flex-direction: row; justify-content: space-between"
+  >
+    <span>Welcome, {{ addUser.firstName }}</span>
+    <button
+      type="button"
+      class="btn btn-danger"
+      style="margin-left: 20px"
+      (click)="Logout()"
+    >
+      Logout
+    </button>
+  </div>
+</nav>
+<mat-card>
+  <!-- Button trigger modal -->
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="addnew()"
+    data-bs-toggle="modal"
+    data-bs-target="#exampleModal"
+    style="margin-bottom: 20px"
+  >
+    Add Ticket
+  </button>
+
+  <!-- Modal -->
+  <form
+    #f="ngForm"
+    name="model"
+    class="example-form"
+    (ngSubmit)="f.form.valid && OnSubmit(f)"
+  >
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Ticket</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <!-- <div style="width:50%">
+          <p> 
+            <mat-form-field appearance="outline">
+              <mat-label>Title</mat-label>
+              <input matInput placeholder="Placeholder" />
+            </mat-form-field>
+          </p>
+          <p> 
+            <mat-form-field appearance="outline">
+              <mat-label>Description</mat-label>
+              <input matInput placeholder="Placeholder" />
+            </mat-form-field>
+          </p>
+          </div> -->
+
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Title</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                matInput
+                required
+                [(ngModel)]="TicketService.selectedTicket.title"
+                value="{{ TicketService.selectedTicket.title }}"
+                name="title"
+                #title="ngModel"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Description</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                matInput
+                required
+                [(ngModel)]="TicketService.selectedTicket.description"
+                value="{{ TicketService.selectedTicket.description }}"
+                name="description"
+                #description="ngModel"
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" (click)="OnSubmit(f)">
+              {{ ticketId ? "Edit Ticket" : "Add ticket" }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="mat-elevation-z8">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Created_at</th>
+          <th scope="col">Created_by</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let i = index;
+            let row;
+            of: ticketData
+              | paginate
+                : {
+                    currentPage: p,
+                    itemsPerPage: PER_page
+                  }
+          "
+        >
+          <td>{{ i + pageCount + 1 }}</td>
+          <td>{{ row.title }}</td>
+          <td>{{ row.description }}</td>
+          <td>{{ row.cretedAt }}</td>
+
+          <td>{{ row.user_Name }}</td>
+          <td>
+            <button
+              class="btn btn-info"
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+              [disabled]="user._id !== row.user_Id"
+              (click)="editTicket(row._id)"
+            >
+              Edit
+            </button>
+            <button
+              (click)="deleteTicket(row._id)"
+              [disabled]="user._id !== row.user_Id"
+              class="btn btn-danger mx-3"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+        <!-- <tr>
+          <td>asdfghjkl</td>
+        </tr> -->
+      </tbody>
+    </table>
+    <div class="text-left" style="padding-bottom: 2px">
+      <pagination-controls
+        (pageChange)="p = $event; pageCount = (p - 1) * 10"
+        (pageChange)="handleChange()"
+      >
+      </pagination-controls>
+    </div>
+  </div>
+</mat-card>

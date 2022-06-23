@@ -1,0 +1,14 @@
+.navbar{
+  display: flex;
+ flex-direction: row;
+}
+.header{
+  background-color: black;
+  height: 100px;
+}
+#ticketapp{
+  float: right;
+}
+table {
+  width: 100%;
+}

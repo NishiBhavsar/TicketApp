@@ -1,0 +1,128 @@
+<div class="container" style="padding-top: 5rem">
+  <mat-card >
+    <mat-icon style="left: 500px" *ngIf="!avatar">account_circle</mat-icon>
+    <img *ngIf="avatar" [src]="avatar" />
+    <mat-card-title style="text-align: center">SignUp User</mat-card-title>
+    <form
+      #f="ngForm"
+      name="model"
+      class="example-form"
+      (ngSubmit)="f.form.valid && OnSubmit()"
+    >
+      <div class="row" style="padding-left: 32%">
+        <div class="col-3">
+          <mat-form-field
+            class="example-full-width"
+            appearance="outline"
+            style="width: 100%"
+          >
+            <mat-label>First Name</mat-label>
+            <input
+              matInput
+              placeholder="First Name"
+              id="fname"
+              required
+              [(ngModel)]="model.Firstname"
+              name="fname"
+              #fname="ngModel"
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-3">
+          <mat-form-field
+            class="example-full-width"
+            appearance="outline"
+            style="width: 100%"
+          >
+            <mat-label>Last Name</mat-label>
+            <input
+              matInput
+              placeholder="Last Name"
+              id="lname"
+              required
+              [(ngModel)]="model.Lastname"
+              name="lname"
+              #lname="ngModel"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row" style="padding-left: 32%">
+        <div class="col-6">
+          <mat-form-field
+            class="example-full-width"
+            appearance="outline"
+            style="width: 100%"
+          >
+            <mat-label>Email</mat-label>
+            <input
+              matInput
+              placeholder="Email ID"
+              id="email"
+              required
+              [(ngModel)]="model.Email"
+              name="email"
+              #Email="ngModel"
+              [pattern]="emailRegex"
+              [ngClass]="{'invalid-textbox' : f.submitted && !Email.valid}"
+            />
+            <div *ngIf="f.submitted && Email.errors?.['Email']">
+              <label class="validation-message">Invalid email address.</label>
+
+            </div>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row" style="padding-left: 32%">
+        <div class="col-6">
+          <mat-form-field
+            class="example-full-width"
+            appearance="outline"
+            style="width: 100%"
+          >
+            <mat-label>Password</mat-label>
+            <input
+              matInput
+              placeholder="Password"
+              type="password"
+               required
+              [(ngModel)]="model.Password"
+              name="password"
+              #Password = "ngModel"
+              [pattern]="passwordRegex"
+              [ngClass]="{'invalid-textbox' : f.submitted && !Password.valid}"
+            />
+            <div *ngIf="f.submitted && Password.errors?.['Password']">
+              <label class="validation-message">Invalid Password.</label>
+
+            </div>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row" style="padding-left: 32%">
+        <div class="col-3">
+          <button
+            mat-raised-button
+            color="primary"
+            style="width: 100%"
+            type="submit"
+            (click)="(OnSubmit)"
+          >
+            Submit
+          </button>
+        </div>
+         <div class="col-3">
+          <button mat-raised-button color="warn" style="width: 100%" (click)="clear()">
+            Clear
+          </button>
+        </div>
+      </div>
+    </form>
+    <div class="row">
+      <a href="" style="text-align: center; margin-top: 2%" routerLink=""
+        >Already have account?</a
+      >
+    </div>
+  </mat-card>
+</div>
